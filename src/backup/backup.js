@@ -14,14 +14,8 @@ router.route("/").get((req, res) => {
     date.getMonth() + 1
   }.${date.getDate()}.${date.getHours()}.${date.getMinutes()}`;
   const fileName = `database-backup-${currentDate}.tar`;
-
-  execute(
-    `pg_dump -U ${username} -F t  ${database}   > ${path.join(
-      __dirname,
-      "backup",
-      fileName
-    )}`
-  )
+  const filePath = `../../backup/${fileName}`;
+  execute(`pg_dump -U ${username} -F t  ${database}   > `)
     .then(async () => {
       console.log("Finito");
       res.download(`/backup/${fileName}`);
