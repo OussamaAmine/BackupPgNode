@@ -3,9 +3,9 @@ const backup = require("./src/backup/backup");
 
 const app = express();
 
-app.use("/backup", backup);
+app.use("/pg/backup", backup);
 
-const server = app.listen(3000);
+const server = app.listen();
 process.on("unhandledRejection", (err) => {
   console.error(err);
   console.log("Unhandled Rejection  ");
