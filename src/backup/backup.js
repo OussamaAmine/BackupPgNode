@@ -16,10 +16,10 @@ router.route("/").get(async (req, res) => {
     }.${date.getDate()}.${date.getHours()}.${date.getMinutes()}`;
     const fileName = `database-backup-${currentDate}.sql`;
     const filePath = path.join(__dirname, "../", "../", "backup", fileName);
-    // const execution = await execute(
-    //   `pg_dump -U ${username} -F p ${database} > ${filePath}`
-    // );
-    // console.log(execution);
+    const execution = await execute(
+      `pg_dump -U ${username} -W -F p ${database} > ${filePath}`
+    );
+    console.log(execution);
     res.status(200).json({
       status: "success",
       data: {
