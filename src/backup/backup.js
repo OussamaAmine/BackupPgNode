@@ -17,7 +17,7 @@ router.route("/").get(async (req, res) => {
     const fileName = `database-backup-${currentDate}.sql`;
     const filePath = path.join(__dirname, "../", "../", "backup", fileName);
     const execution = await execute(
-      `pg_dump -U ${username} -d ${database} -f ${fileName} -F p`
+      `pg_dump -U ${username} ${database} -f ${fileName} -F p`
     );
     console.log(execution);
     res.status(200).json({
