@@ -10,6 +10,7 @@ router.route("/").get(async (req, res) => {
   try {
     const username = process.env.DB_USERNAME;
     const database = process.env.DB_NAME;
+    const password = process.env.PGPASS;
     const date = new Date();
     const currentDate = `${date.getFullYear()}.${
       date.getMonth() + 1
@@ -17,7 +18,8 @@ router.route("/").get(async (req, res) => {
     const fileName = `database-backup-${currentDate}.sql`;
     const filePath = path.join(__dirname, "../", "../", "backup", fileName);
     const execution = await execute(
-      `pg_dump -U ${username} ${database} -f ${fileName} -F p`
+      `pg_dump -U ${username} ${database} -f ${fileName} -F p`,
+      { env: { PGPASS: password } }
     );
     console.log(execution);
     res.status(200).json({
