@@ -21,13 +21,13 @@ router.route("/").get(async (req, res) => {
       `pg_dump -U ${username} ${database} -f ${filePath} -F p`
     );
     console.log(execution);
-    res.status(200).json({
-      status: "success",
-      data: {
-        user: filePath,
-      },
-    });
-    //res.download(filePath);
+    // res.status(200).json({
+    //   status: "success",
+    //   data: {
+    //     user: filePath,
+    //   },
+    // });
+    res.download(filePath);
   } catch (err) {
     console.log(err);
     res.status(500);
