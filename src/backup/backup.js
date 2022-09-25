@@ -11,16 +11,21 @@ router.route("/").get(async (req, res) => {
     const username = process.env.DB_USERNAME;
     const database = process.env.DB_NAME;
     const date = new Date();
-    const currentDate = `${date.getFullYear()}.${
-      date.getMonth() + 1
-    }.${date.getDate()}.${date.getHours()}.${date.getMinutes()}`;
-    const fileName = `database-backup-${currentDate}.sql`;
-    const filePath = path.join(__dirname, "../", "../", "backup", fileName);
+    // const currentDate = `${date.getFullYear()}.${
+    //date.getMonth() + 1
+    //}.${date.getDate()}.${date.getHours()}.${date.getMinutes()}`;
+    // const fileName = `database-backup-${currentDate}.sql`;
+    //const filePath = path.join(__dirname, "../", "../", "backup", fileName);
     // const execution = await execute(
     //   `pg_dump -U ${username} -F p ${database} > ${filePath}`
     // );
     // console.log(execution);
-    res.status(200);
+    res.status(200).json({
+      status: "success",
+      data: {
+        user: "user",
+      },
+    });
     //res.download(filePath);
   } catch (err) {
     console.log(err);
