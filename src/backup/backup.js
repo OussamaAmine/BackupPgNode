@@ -18,7 +18,7 @@ router.route("/").get(async (req, res) => {
     const filePath = path.join(__dirname, "../", "../", "backup", fileName);
     await execute(`pg_dump -U ${username} -F p ${database} > ${filePath}`);
 
-    res.download(`/backup/${fileName}`);
+    res.download(filePath);
   } catch (err) {
     console.log(err);
     res.status(500);
