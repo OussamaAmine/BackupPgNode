@@ -16,7 +16,7 @@ router.route("/").get(async (req, res) => {
       date.getMonth() + 1
     }.${date.getDate()}.${date.getHours()}.${date.getMinutes()}`;
     const fileName = `database-backup-${currentDate}.sql`;
-    const filePath = path.join(__dirname, "../", "../", "backup", fileName);
+    const filePath = path.join(__dirname, "../", "../", "/backup", fileName);
     const execution = await execute(
       `pg_dump -U ${username} ${database} -f ${fileName} -F p`,
       { env: { PGPASSWORD: password } }
