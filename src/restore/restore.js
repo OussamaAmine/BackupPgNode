@@ -9,28 +9,27 @@ const multer = require("multer");
 
 const router = express.Router();
 
-router.post("/", async (req, res) => {
+const multerMemoryStorage = multer.memoryStorage();
+
+const multerFilter = (req, file, cb) => {
+  if (file.mimetype.startsWith("application/gzip")) {
+    cb(null, true);
+  } else {
+    cb(new Error("error"), false);
+  }
+};
+
+const uploadToMemory = multer({
+  storage: multerMemoryStorage,
+  fileFilter: multerFilter,
+});
+
+router.post("/", uploadToMemory.single("file"), async (req, res) => {
   dotenv.config();
   const database = process.env.DB_NAME;
 
-  const multerMemoryStorage = multer.memoryStorage();
-
-  const multerFilter = (req, file, cb) => {
-    if (file.mimetype.startsWith("application/gzip")) {
-      cb(null, true);
-    } else {
-      cb(new Error("error"), false);
-    }
-  };
-
-  const uploadToMemory = multer({
-    storage: multerMemoryStorage,
-    fileFilter: multerFilter,
-  });
-
   const writeFileAsync = promisify(fs.writeFile);
 
-  uploadToMemory.single("file");
   try {
     if (!req.file) {
       throw new Error("you must upload file ");
