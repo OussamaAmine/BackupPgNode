@@ -55,7 +55,9 @@ router
 
       await execute(`pg_restore -cC -d ${database} ${filePath}`);
       console.log("Restored");
-      res.status(200);
+      res.status(200).json({
+        status: "succes",
+      });
     } catch (err) {
       console.log(err);
       res.status(500);
