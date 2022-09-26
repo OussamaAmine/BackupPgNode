@@ -27,6 +27,7 @@ exports.restore = async (req, res) => {
   const database = process.env.DB_NAME;
 
   const writeFileAsync = promisify(fs.writeFile);
+  const unlinkAsync = promisify(fs.unlink);
 
   try {
     if (!req.file) {
@@ -37,13 +38,19 @@ exports.restore = async (req, res) => {
       date.getMonth() + 1
     }.${date.getDate()}.${date.getHours()}.${date.getMinutes()}`;
 
-    const fileName = `upload-backup-${currentDate}.sql.gz`;
-    let filePath = path.join(__dirname, '../', '../', 'upload', fileName);
+    const fileName = `upload-backup-${currentDate}.sql`;
+    const fileNameGz = `${fileName}.gz`;
+    const filePathGz = path.join(__dirname, '../', '../', 'upload', fileNameGz);
+    const filePath = path.join(__dirname, '../', '../', 'upload', fileName);
 
     await writeFileAsync(filePath, req.file.buffer);
+    await execute(`gzip -d ${filePathGz}`);
+
+    await unlinkAsync(filePathGz);
 
     await execute(`pg_restore -cC -d ${database} ${filePath}`);
     console.log('Restored');
+    await unlinkAsync(filePath);
     res.status(200).json({
       status: 'succes',
     });
