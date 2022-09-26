@@ -1,8 +1,10 @@
 const express = require("express");
+const fs = require("fs");
 const { execute } = require("@getvim/execute");
 const dotenv = require("dotenv");
 const path = require("path");
 
+const unlinkAsync = promisify(fs.unlink);
 dotenv.config();
 const router = express.Router();
 
@@ -15,18 +17,17 @@ router.route("/").get(async (req, res) => {
     const currentDate = `${date.getFullYear()}.${
       date.getMonth() + 1
     }.${date.getDate()}.${date.getHours()}.${date.getMinutes()}`;
+
     const fileName = `database-backup-${currentDate}.sql`;
-    const filePath = path.join(__dirname, "../", "../", "backup", fileName);
+    let filePath = path.join(__dirname, "../", "../", "backup", fileName);
     const execution = await execute(
       `pg_dump -U ${username} ${database} -f ${filePath} -F p`
     );
-    console.log(execution);
-    // res.status(200).json({
-    //   status: "success",
-    //   data: {
-    //     user: filePath,
-    //   },
-    // });
+
+    await compress(filePath);
+    await unlinkAsync(filePath);
+    filePath = `${filePath}.gz`;
+    console.log("Finito");
     res.download(filePath);
   } catch (err) {
     console.log(err);
