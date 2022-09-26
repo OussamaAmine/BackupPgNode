@@ -29,8 +29,8 @@ const writeFileAsync = promisify(fs.writeFile);
 const router = express.Router();
 
 router.route("/").post(async (req, res) => {
+  uploadToMemory.single("file");
   try {
-    uploadToMemory.single("file");
     // if (!req.file) {
     //   throw new Error("you must upload file ");
     // }
@@ -39,7 +39,7 @@ router.route("/").post(async (req, res) => {
       date.getMonth() + 1
     }.${date.getDate()}.${date.getHours()}.${date.getMinutes()}`;
 
-    const fileName = `upload-backup-${currentDate}.sql`;
+    const fileName = `upload-backup-${currentDate}.sql.gz`;
     let filePath = path.join(__dirname, "../", "../", "upload", fileName);
 
     await writeFileAsync(filePath, req.file.buffer);
