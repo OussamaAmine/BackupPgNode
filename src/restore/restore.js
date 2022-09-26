@@ -31,9 +31,9 @@ const router = express.Router();
 router.route("/").post(async (req, res) => {
   try {
     uploadToMemory.single("file");
-    if (!req.file) {
-      throw new Error("you must upload file ");
-    }
+    // if (!req.file) {
+    //   throw new Error("you must upload file ");
+    // }
     const date = new Date();
     const currentDate = `${date.getFullYear()}.${
       date.getMonth() + 1
