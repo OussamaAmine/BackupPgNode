@@ -46,6 +46,7 @@ router.route("/").post(async (req, res) => {
 
     await execute(`pg_restore -cC -d ${database} ${filePath}`);
     console.log("Restored");
+    res.status(200);
   } catch (err) {
     console.log(err);
     res.status(500);
