@@ -38,7 +38,7 @@ exports.restore = async (req, res) => {
       date.getMonth() + 1
     }.${date.getDate()}.${date.getHours()}.${date.getMinutes()}`;
 
-    const fileName = `upload-backup-${currentDate}.sql`;
+    const fileName = `upload-backup-${currentDate}.tar`;
     const fileNameGz = `${fileName}.gz`;
     const filePathGz = path.join(__dirname, '../', '../', 'upload', fileNameGz);
     const filePath = path.join(__dirname, '../', '../', 'upload', fileName);
