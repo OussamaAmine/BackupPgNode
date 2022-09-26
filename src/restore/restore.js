@@ -1,4 +1,5 @@
 const express = require("express");
+const path = require("path");
 const { execute } = require("@getvim/execute");
 const fs = require("fs");
 const compress = require("gzipme");
