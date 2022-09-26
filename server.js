@@ -1,6 +1,6 @@
 const express = require("express");
 const backup = require("./src/backup/backup");
-const backup = require("./src/restore/restore");
+const restore = require("./src/restore/restore");
 
 const app = express();
 
