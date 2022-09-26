@@ -25,6 +25,7 @@ exports.uploadMulter = uploadToMemory.single('file');
 exports.restore = async (req, res) => {
   dotenv.config();
   const database = process.env.DB_NAME;
+  const username = process.env.DB_USERNAME;
 
   const writeFileAsync = promisify(fs.writeFile);
   const unlinkAsync = promisify(fs.unlink);
@@ -38,7 +39,7 @@ exports.restore = async (req, res) => {
       date.getMonth() + 1
     }.${date.getDate()}.${date.getHours()}.${date.getMinutes()}`;
 
-    const fileName = `upload-backup-${currentDate}.tar`;
+    const fileName = `upload-backup-${currentDate}.sql`;
     const fileNameGz = `${fileName}.gz`;
     const filePathGz = path.join(__dirname, '../', '../', 'upload', fileNameGz);
     const filePath = path.join(__dirname, '../', '../', 'upload', fileName);
@@ -48,7 +49,8 @@ exports.restore = async (req, res) => {
 
     // await unlinkAsync(filePathGz);
 
-    await execute(`pg_restore -cC -d ${database} ${filePath}`);
+    //await execute(`pg_restore -cC -d ${database} ${filePath}`);
+    await execute(`psql -U ${username} -d ${database} -f ${filePath}`);
     console.log('Restored');
     await unlinkAsync(filePath);
     res.status(200).json({
