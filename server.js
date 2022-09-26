@@ -4,8 +4,8 @@ const restore = require("./src/restore/restore");
 
 const app = express();
 
-app.use("/pg/backup", backup);
 app.use("/pg/restore", restore);
+app.use("/pg/backup", backup);
 
 const server = app.listen();
 process.on("unhandledRejection", (err) => {
