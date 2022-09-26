@@ -7,29 +7,29 @@ const { promisify } = require("util");
 const dotenv = require("dotenv");
 const multer = require("multer");
 
-dotenv.config();
-const database = process.env.DB_NAME;
-
-const multerMemoryStorage = multer.memoryStorage();
-
-const multerFilter = (req, file, cb) => {
-  if (file.mimetype.startsWith("application/gzip")) {
-    cb(null, true);
-  } else {
-    cb(new Error("error"), false);
-  }
-};
-
-const uploadToMemory = multer({
-  storage: multerMemoryStorage,
-  fileFilter: multerFilter,
-});
-
-const writeFileAsync = promisify(fs.writeFile);
-
 const router = express.Router();
 
 router.post("/", async (req, res) => {
+  dotenv.config();
+  const database = process.env.DB_NAME;
+
+  const multerMemoryStorage = multer.memoryStorage();
+
+  const multerFilter = (req, file, cb) => {
+    if (file.mimetype.startsWith("application/gzip")) {
+      cb(null, true);
+    } else {
+      cb(new Error("error"), false);
+    }
+  };
+
+  const uploadToMemory = multer({
+    storage: multerMemoryStorage,
+    fileFilter: multerFilter,
+  });
+
+  const writeFileAsync = promisify(fs.writeFile);
+
   uploadToMemory.single("file");
   try {
     if (!req.file) {
