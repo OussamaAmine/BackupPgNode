@@ -1,14 +1,12 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const backup = require('./src/backup/backup');
-const restore = require('./src/restore/restore');
+const routes = require('./routes');
 
 const app = express();
 app.use(bodyParser.json());
 app.use(express.json());
 
-app.use('/pg/restore', restore);
-app.use('/pg/backup', backup);
+app.use('/pg', routes);
 
 const server = app.listen();
 

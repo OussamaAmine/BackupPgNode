@@ -1,4 +1,3 @@
-const express = require('express');
 const path = require('path');
 const { execute } = require('@getvim/execute');
 const fs = require('fs');
@@ -6,8 +5,6 @@ const compress = require('gzipme');
 const { promisify } = require('util');
 const dotenv = require('dotenv');
 const multer = require('multer');
-
-const router = express.Router();
 
 // const multerMemoryStorage = multer.memoryStorage();
 
@@ -23,8 +20,7 @@ const router = express.Router();
 //   storage: multerMemoryStorage,
 //   fileFilter: multerFilter,
 // });
-
-router.post('/', (req, res) => {
+exports.restore = (req, res) => {
   //     uploadToMemory.single("file")
   //   dotenv.config();
   //   const database = process.env.DB_NAME;
@@ -54,6 +50,4 @@ router.post('/', (req, res) => {
   //     console.log(err);
   //     res.status(500);
   //   }
-});
-
-module.exports = router;
+};

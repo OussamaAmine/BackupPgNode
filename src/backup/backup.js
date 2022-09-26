@@ -1,16 +1,14 @@
-const express = require("express");
-const fs = require("fs");
-const compress = require("gzipme");
-const { promisify } = require("util");
-const { execute } = require("@getvim/execute");
-const dotenv = require("dotenv");
-const path = require("path");
+const fs = require('fs');
+const compress = require('gzipme');
+const { promisify } = require('util');
+const { execute } = require('@getvim/execute');
+const dotenv = require('dotenv');
+const path = require('path');
 
 const unlinkAsync = promisify(fs.unlink);
 dotenv.config();
-const router = express.Router();
 
-router.route("/").get(async (req, res) => {
+exports.backup = async (req, res) => {
   try {
     const username = process.env.DB_USERNAME;
     const database = process.env.DB_NAME;
@@ -21,19 +19,18 @@ router.route("/").get(async (req, res) => {
     }.${date.getDate()}.${date.getHours()}.${date.getMinutes()}`;
 
     const fileName = `database-backup-${currentDate}.sql`;
-    let filePath = path.join(__dirname, "../", "../", "backup", fileName);
+    let filePath = path.join(__dirname, '../', '../', 'backup', fileName);
     const execution = await execute(
       `pg_dump -U ${username} ${database} -f ${filePath} -F p`
     );
 
     await compress(filePath);
     await unlinkAsync(filePath);
-    filePath = filePath + ".gz";
-    console.log("Finito");
+    filePath = filePath + '.gz';
+    console.log('Finito');
     res.download(filePath);
   } catch (err) {
     console.log(err);
     res.status(500);
   }
-});
-module.exports = router;
+};
