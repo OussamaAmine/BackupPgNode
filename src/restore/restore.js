@@ -15,7 +15,7 @@ const multerFilter = (req, file, cb) => {
   if (file.mimetype.startsWith("application/gzip")) {
     cb(null, true);
   } else {
-    cb(new AppError("Please upload only gzip files", 400), false);
+    cb(new Error("error"), false);
   }
 };
 
@@ -32,7 +32,7 @@ router.route("/").post(async (req, res) => {
   try {
     uploadToMemory.single("file");
     if (!req.file) {
-      throw new AppError("you must upload file ", 400);
+      throw new Error("you must upload file ");
     }
     const date = new Date();
     const currentDate = `${date.getFullYear()}.${
