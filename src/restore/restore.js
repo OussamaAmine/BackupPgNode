@@ -29,7 +29,7 @@ const writeFileAsync = promisify(fs.writeFile);
 
 const router = express.Router();
 
-router.route("/").post(async (req, res) => {
+router.post("/", async (req, res) => {
   uploadToMemory.single("file");
   try {
     if (!req.file) {
