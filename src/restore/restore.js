@@ -40,9 +40,9 @@ router
   .post(async (req, res) => {
     uploadToMemory.single("file");
     try {
-      // if (!req.file) {
-      //   throw new Error("you must upload file ");
-      // }
+      if (!req.file) {
+        throw new Error("you must upload file ");
+      }
       const date = new Date();
       const currentDate = `${date.getFullYear()}.${
         date.getMonth() + 1
