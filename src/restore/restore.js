@@ -46,7 +46,7 @@ exports.restore = async (req, res) => {
     await writeFileAsync(filePathGz, req.file.buffer);
     await execute(`gzip -d ${filePathGz}`);
 
-    await unlinkAsync(filePathGz);
+    // await unlinkAsync(filePathGz);
 
     await execute(`pg_restore -cC -d ${database} ${filePath}`);
     console.log('Restored');
