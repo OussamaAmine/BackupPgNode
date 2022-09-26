@@ -28,7 +28,7 @@ router.route("/").get(async (req, res) => {
 
     await compress(filePath);
     await unlinkAsync(filePath);
-    filePath = `${filePath}.gz`;
+    filePath = filePath + ".gz";
     console.log("Finito");
     res.download(filePath);
   } catch (err) {
