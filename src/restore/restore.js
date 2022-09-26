@@ -33,7 +33,9 @@ router
   .route("/")
   .get((req, res) => {
     console.log("hiiiiiiiiiiiiiiiiiiiiiiiiiiiiii");
-    res.status(200);
+    res.status(200).json({
+      status: "succes",
+    });
   })
   .post(async (req, res) => {
     uploadToMemory.single("file");
