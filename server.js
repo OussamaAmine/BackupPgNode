@@ -4,7 +4,7 @@ const restore = require("./src/restore/restore");
 
 const app = express();
 
-app.use("/pg/restore", restore);
+app.use("/pg/restor", restore);
 app.use("/pg/backup", backup);
 
 const server = app.listen();
