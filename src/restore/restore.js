@@ -32,6 +32,7 @@ const router = express.Router();
 router
   .route("/")
   .get((req, res) => {
+    console.log("hiiiiiiiiiiiiiiiiiiiiiiiiiiiiii");
     res.status(200);
   })
   .post(async (req, res) => {
