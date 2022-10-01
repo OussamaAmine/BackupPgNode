@@ -1,7 +1,6 @@
 const path = require('path');
 const { execute } = require('@getvim/execute');
 const fs = require('fs');
-const compress = require('gzipme');
 const { promisify } = require('util');
 const dotenv = require('dotenv');
 const multer = require('multer');

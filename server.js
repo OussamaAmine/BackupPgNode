@@ -10,7 +10,7 @@ app.use(express.json());
 
 app.use('/pg/test', routes);
 
-const server = app.listen();
+const server = app.listen(5000);
 
 process.on('unhandledRejection', (err) => {
   console.error(err);
